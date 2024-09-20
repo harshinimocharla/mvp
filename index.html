@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apparel Submission</title>
+</head>
+<body>
+    <h2>Submit Your Apparel</h2>
+    <form id="apparelForm">
+        <label for="apparel_type">Apparel Type:</label><br>
+        <input type="text" id="apparel_type" name="apparel_type"><br>
+        <label for="condition">Condition:</label><br>
+        <input type="text" id="condition" name="condition"><br>
+        <label for="action">Action (Donate/Recycle):</label><br>
+        <input type="text" id="action" name="action"><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('apparelForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const apparel_type = document.getElementById('apparel_type').value;
+            const condition = document.getElementById('condition').value;
+            const action = document.getElementById('action').value;
+
+            fetch('http://127.0.0.1:5000/submit-apparel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer YOUR_ACCESS_TOKEN' // Replace with your JWT token after login
+                },
+                body: JSON.stringify({
+                    user_id: 1,  // replace with actual user ID
+                    apparel_type: apparel_type,
+                    condition: condition,
+                    action: action
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
